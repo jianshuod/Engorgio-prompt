@@ -14,11 +14,12 @@ This repository provides tools and code for:
 
 **Citation:** If you find our project useful, please consider citing: 🤗🤗🤗
 ```bibtex
-@misc{dong2024engorgio,
-      title={An Engorgio Prompt Makes Large Language Model Babble on}, 
-      author={Jianshuo Dong and Ziyuan Zhang and Qingjie Zhang and Han Qiu and Tianwei Zhang and Hao Wang and Hewu Li and Qi Li and Chao Zhang and Ke Xu},
-      year={2024},
-      url={https://arxiv.org/abs/2412.19394}, 
+@inproceedings{dong2025engorgio,
+    title={An Engorgio Prompt Makes Large Language Model Babble on},
+    author={Jianshuo Dong and Ziyuan Zhang and Qingjie Zhang and Han Qiu and Tianwei Zhang and Hao Wang and Hewu Li and Qi Li and Chao Zhang and Ke Xu},
+    booktitle={The Thirteenth International Conference on Learning Representations},
+    year={2025},
+    url={https://openreview.net/forum?id=m4eXBo0VNc}
 }
 ```
 
