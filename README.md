@@ -110,7 +110,7 @@ CUDA_VISIBLE_DEVICES=0 python ./ica_code.py \
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-### FAQs
+## FAQs
 
 1. **How to Work Through the Environment Setup?**
 
