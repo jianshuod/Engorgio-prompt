@@ -25,6 +25,8 @@ This repository provides tools and code for:
 
 ## Abstract
 
+![alt text](assets/engorgio-overview.jpg)
+
 
 Auto-regressive large language models (LLMs) have yielded impressive performance in many real-world tasks. 
 However, the new paradigm of these LLMs also exposes novel threats. 
@@ -34,7 +36,6 @@ We conduct extensive experiments on 13 open-sourced LLMs with parameters ranging
 The results show that Engorgio prompts can successfully induce LLMs to generate abnormally long outputs (i.e., roughly 2-13X longer to reach 90\%+ of the output length limit)
 in a white-box scenario and our real-world experiment demonstrates Engergio's threat to LLM service with limited computing resources.
 
-![alt text](assets/engorgio-overview.jpg)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -85,7 +86,6 @@ CUDA_VISIBLE_DEVICES=0 python ./ica_code.py \
     --initial_coeff 0 \
     --bs 8 \
     --sample_time 80 \
-    --load_in_8bit \
     --seed 123
 ```
 
@@ -104,7 +104,32 @@ CUDA_VISIBLE_DEVICES=0 python ./ica_code.py \
 | `initial_coeff` | Random initialization of distribution matrix coefficient |
 | `bs` | Batch size for inference (recommended: 8 for 7B models on single A100) |
 | `sample_time` | Number of generation iterations for metrics calculation |
-| `load_in_8bit` | Enable int8 quantization for large models |
+| `load_in_8bit` | Enable int8 quantization for large models (This will alter the model's behavior.) |
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+### FAQs
+
+1. **How to Work Through the Environment Setup?**
+
+As the original experiments are conducted as early as the first half of 2023, the environment setup is definitely outdated and may encounter some compatibility issues. A detailed and up-to-date guide has been provided by [@Phil-Fan](https://github.com/Phil-Fan) in [this issue](https://github.com/jianshuod/Engorgio-prompt/issues/3). We appreciate his contribution and hope it can help you.
+
+2. **How to Adapt the Code to New Models?**
+
+Besides the necessary pre-requisites of downloading the model checkpoints, you need to adapt the code to the new model. The main changes are:
+- Define the loading function of the model and the tokenizer.
+- As we have to apply the chat template manually (see ica_utils/template.py), you should accordingly add the template there (refer to FastChat's implementation).
+- As some configurations for the optimization may be sensitive to the model, you should accordingly adjust the parameters, e.g., learning rate.
+
+3. **How to Craft Effective Engorgio Prompts?**
+
+Engorgio works by identifying a sequence that contains no \<EOS\> token. The trigger prompt (a.k.a. the Engorgio prompt) is indirectly obtained through the optimization process, making it in fact a by-product of that process.
+ >  In essence, Engorgio is exploring a subspace where \<EOS\> token is not allowed to appear. Similarly, one could explore subspaces excluding other tokens from the vocabulary. Among these, the special token \<EOS\> is most strongly linked to inference cost, which this work exploits. This value of the broader idea was not fully recognized when the paper was written. If you are interested in discussing it further, feel free to reach out to [@jianshuod](https://github.com/jianshuod).
+ 
+Meanwhile, like other optimization-based methods, Engorgio's results are sensitive to initialization (as simple as the initialization of the distribution matrix). You may try different initializations to see if you can find a better trigger prompt. Frankly speaking, the stability issue received limited attention in the original paper, and it likely warrants a more systematic benchmarking study.
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
